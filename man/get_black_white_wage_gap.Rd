@@ -30,9 +30,9 @@ workers' share of white workers' wages) by subtracting the gap from 100 percent.
 }
 }
 \examples{
-get_black_white_wage_gap()
+if (not_dos()) get_black_white_wage_gap()
 
-get_black_white_wage_gap("g")
+if (not_dos()) get_black_white_wage_gap("g")
 }
 \references{
 \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}

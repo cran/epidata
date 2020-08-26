@@ -29,8 +29,9 @@ share of men's wages) by subtracting the gap from 100 percent.
 }
 }
 \examples{
-get_gender_wage_gap()
+if (not_dos()) get_gender_wage_gap()
 
+if (not_dos())
 get_gender_wage_gap("r")
 }
 \references{

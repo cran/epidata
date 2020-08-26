@@ -6,13 +6,16 @@
 #' it to research wages, inequality, and other economic indicators over time  and among
 #' demographic groups. Data is usually updated monthly.
 #'
+#' Set option `epidata.show.citation` to `FALSE` to suppress note and citation
+#' messages. Remember, though, that EPI requires attribution if you use their data.
+#'
 #' @name epidata
 #' @docType package
 #' @author Bob Rudis (bob@@rud.is)
 #' @keywords internal
 #' @importFrom purrr map map_df map_chr keep discard %||%
 #' @importFrom stringi stri_replace_all_regex stri_trans_tolower %s+% stri_replace_all_fixed
-#' @importFrom dplyr %>% as_data_frame mutate_all
+#' @importFrom dplyr %>% mutate_all
 #' @import httr
 #' @importFrom readr type_convert
 #' @importFrom jsonlite fromJSON
@@ -20,4 +23,5 @@
 #' @importFrom xml2 read_html
 #' @importFrom tidyr gather
 #' @importFrom stats setNames
+#' @importFrom utils getFromNamespace
 NULL

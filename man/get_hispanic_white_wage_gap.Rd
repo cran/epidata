@@ -30,9 +30,9 @@ are less than hourly wages of white workers. It is also often expressed as a wag
 }
 }
 \examples{
-get_hispanic_white_wage_gap()
+if (not_dos()) get_hispanic_white_wage_gap()
 
-get_hispanic_white_wage_gap("g")
+if (not_dos()) get_hispanic_white_wage_gap("g")
 }
 \references{
 \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}

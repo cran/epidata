@@ -12,14 +12,16 @@
 #' @return \code{tbl_df} with data filtered by the selected criteria.
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
 #' @note Data source: U.S. Department of Labor Wage and Hour Division | CES
+#' @return data frame
 #' @export
 #' @examples
-#' get_minimum_wage()
+#' if (not_dos()) get_minimum_wage()
 get_minimum_wage <- function() {
 
   params <- list(subject="minwage")
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('%,\\)]", "")
@@ -35,8 +37,7 @@ get_minimum_wage <- function() {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 

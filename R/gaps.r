@@ -19,8 +19,9 @@
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
 #' @export
 #' @examples
-#' get_gender_wage_gap()
+#' if (not_dos()) get_gender_wage_gap()
 #'
+#' if (not_dos())
 #' get_gender_wage_gap("r")
 get_gender_wage_gap <- function(by=NULL) {
 
@@ -29,6 +30,7 @@ get_gender_wage_gap <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("r"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -39,8 +41,7 @@ get_gender_wage_gap <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -68,9 +69,9 @@ get_gender_wage_gap <- function(by=NULL) {
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
 #' @export
 #' @examples
-#' get_black_white_wage_gap()
+#' if (not_dos()) get_black_white_wage_gap()
 #'
-#' get_black_white_wage_gap("g")
+#' if (not_dos()) get_black_white_wage_gap("g")
 get_black_white_wage_gap <- function(by=NULL) {
 
   params <- list(subject="wagegap-bw")
@@ -78,6 +79,7 @@ get_black_white_wage_gap <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -88,8 +90,7 @@ get_black_white_wage_gap <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -117,9 +118,9 @@ get_black_white_wage_gap <- function(by=NULL) {
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
 #' @export
 #' @examples
-#' get_hispanic_white_wage_gap()
+#' if (not_dos()) get_hispanic_white_wage_gap()
 #'
-#' get_hispanic_white_wage_gap("g")
+#' if (not_dos()) get_hispanic_white_wage_gap("g")
 get_hispanic_white_wage_gap <- function(by=NULL) {
 
   params <- list(subject="wagegap-hw")
@@ -127,6 +128,7 @@ get_hispanic_white_wage_gap <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -137,12 +139,12 @@ get_hispanic_white_wage_gap <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
 }
+
 
 #' Retreive the percent by which hourly wages of college graduates exceed those of otherwise
 #' equivalent high school graduates
@@ -157,9 +159,9 @@ get_hispanic_white_wage_gap <- function(by=NULL) {
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
 #' @export
 #' @examples
-#' get_college_wage_premium()
+#' if (not_dos()) get_college_wage_premium()
 #'
-#' get_college_wage_premium("g")
+#' if (not_dos()) get_college_wage_premium("g")
 get_college_wage_premium <- function(by=NULL) {
 
   params <- list(subject="wagegap-coll")
@@ -167,6 +169,7 @@ get_college_wage_premium <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -177,8 +180,7 @@ get_college_wage_premium <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -198,9 +200,9 @@ get_college_wage_premium <- function(by=NULL) {
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
 #' @export
 #' @examples \dontrun{
-#' get_non_high_school_wage_penalty()
+#' if (not_dos()) get_non_high_school_wage_penalty()
 #'
-#' get_non_high_school_wage_penalty("g")
+#' if (not_dos()) get_non_high_school_wage_penalty("g")
 #' }
 get_non_high_school_wage_penalty <- function(by=NULL) {
 
@@ -209,6 +211,7 @@ get_non_high_school_wage_penalty <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -219,62 +222,9 @@ get_non_high_school_wage_penalty <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
 }
 
-#' Retreive the level of inequality within the hourly wage distribution.
-#'
-#' The 95–50 and 50–10 wage ratios are representations of the level of inequality within
-#' the hourly wage distribution. The larger the ratio, the greater the gap between the
-#' top and the middle or the middle and the bottom of the wage distribution.
-#'
-#' \itemize{
-#' \item{A 50–10 wage ratio of 1.91 means that workers at the 50th percentile of the wage
-#'       distribution are paid 1.91 times more per hour than the workers at the 10th percentile.}
-#' \item{A 95–50 wage ratio of 3.28 means that workers at the 95th percentile of the wage
-#'       distribution are paid 3.28 times more per hour than the workers at the 50th percentile.}
-#' }
-#'
-#' @param by \code{NULL} or character string with any combination of \code{g} (Gender) or
-#'   \code{r} (Race), i.e. if you want to retrieve
-#'   unemployment data by gender and race, you would set this parameter to "\code{gr}".
-#' @return \code{tbl_df} with data filtered by the selected criteria.
-#' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
-#' @export
-#' @examples \dontrun{
-#' get_wage_ratios()
-#'
-#' get_wage_ratios("r")
-#'
-#' get_wage_ratios("gr")
-#' }
-get_wage_ratios <- function(by=NULL) {
-
-  params <- list(preset="wage-ratios")
-
-  if (!is.null(by)) {
-    params <- make_params(params, by, c("g", "r"))
-    params <- c(params, list(subject="wage", d="10,50,95,5010,9550,mean"))
-  }
-
-  res <- epi_query(params)
-
-  cols <- stringi::stri_trans_tolower(res$columns$name)
-  cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
-  cols <- stringi::stri_replace_all_regex(cols, "[[:space:]" %s+%
-                                            rawToChar(as.raw(c(0xe2, 0x80, 0x93))) %s+% "-]+",
-                                          "_")
-  out <- setNames(as_data_frame(res$data), cols)
-  out <- dplyr::mutate_all(out, "clean_cols")
-  out <- suppressMessages(readr::type_convert(out))
-
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
-
-  out
-
-}

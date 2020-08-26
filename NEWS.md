@@ -1,3 +1,9 @@
+# epidata 0.4.0
+
+* fixes CRAN check issue
+* added option to suppress citation/notes messages (use `options(epidata.show.citation = FALSE)`)
+* switched to {tinytest}
+
 # epidata 0.3.0
 
 * Added a `NEWS.md` file to track changes to the package.

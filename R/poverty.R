@@ -12,14 +12,14 @@
 #'   unemployment data by gender and race, you would set this parameter to "\code{gr}".
 #' @return \code{tbl_df} with data filtered by the selected criteria.
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
+#' @return data frame
 #' @export
-#' @examples \dontrun{
-#' get_poverty_level_wages()
+#' @examples
+#' if (not_dos()) get_poverty_level_wages()
 #'
-#' get_poverty_level_wages("r")
+#' if (not_dos()) get_poverty_level_wages("r")
 #'
-#' get_poverty_level_wages("gr")
-#' }
+#' if (not_dos()) get_poverty_level_wages("gr")
 get_poverty_level_wages <- function(by=NULL) {
 
   params <- list(subject="povwage")
@@ -30,6 +30,7 @@ get_poverty_level_wages <- function(by=NULL) {
   }
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('%\\+\\)]", "")
@@ -43,8 +44,7 @@ get_poverty_level_wages <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 

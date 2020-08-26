@@ -22,9 +22,9 @@ ethnicity, education, experience, and geographic location).
 }
 \examples{
 \dontrun{
-get_non_high_school_wage_penalty()
+if (not_dos()) get_non_high_school_wage_penalty()
 
-get_non_high_school_wage_penalty("g")
+if (not_dos()) get_non_high_school_wage_penalty("g")
 }
 }
 \references{

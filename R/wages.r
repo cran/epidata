@@ -28,6 +28,7 @@ get_median_and_mean_wages <- function(by=NULL) {
   }
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -37,9 +38,6 @@ get_median_and_mean_wages <- function(by=NULL) {
   out <- setNames(as_data_frame(res$data), cols)
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
-
-  cite <- "Economic Policy Institute"
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
 
   out
 
@@ -66,14 +64,14 @@ get_median_and_mean_wages <- function(by=NULL) {
 #' get_wages_by_education("gr")
 get_wages_by_education <- function(by=NULL) {
 
-  params <- list(preset="wage-education")
+  params <- list(subject="wage-education")
 
   if (!is.null(by)) {
     params <- make_params(params, by, c("g", "r"))
-    params <- c(params, list(subject="wage", e="*", d="50,mean", m="share"))
   }
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[[:space:]" %s+%
@@ -83,8 +81,7 @@ get_wages_by_education <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -101,6 +98,7 @@ get_wages_by_education <- function(by=NULL) {
 #'   unemployment data by gender and race, you would set this parameter to "\code{gr}".
 #' @return \code{tbl_df} with data filtered by the selected criteria.
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
+#' @return data frame
 #' @export
 #' @examples
 #' get_wages_by_percentile()
@@ -110,14 +108,14 @@ get_wages_by_education <- function(by=NULL) {
 #' get_wages_by_percentile("gr")
 get_wages_by_percentile <- function(by=NULL) {
 
-  params <- list(preset="wage-percentiles")
+  params <- list(subject="wage-percentiles")
 
   if (!is.null(by)) {
     params <- make_params(params, by, c("g", "r"))
-    params <- c(params, list(subject="wage", d="*"))
   }
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[[:space:]" %s+%
@@ -127,8 +125,7 @@ get_wages_by_percentile <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 

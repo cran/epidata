@@ -20,6 +20,7 @@ get_unemployment <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g", "r", "a", "e"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -30,8 +31,7 @@ get_unemployment <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -55,6 +55,7 @@ get_unemployment_by_state <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("r"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -66,8 +67,7 @@ get_unemployment_by_state <- function(by=NULL) {
   out <- suppressMessages(readr::type_convert(out))
   out <- tidyr::gather(out, region, value, -date)
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -94,6 +94,7 @@ get_long_term_unemployment <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g", "r", "a", "e"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -104,8 +105,7 @@ get_long_term_unemployment <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -138,6 +138,7 @@ get_underemployment <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g", "r", "a", "e"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -148,8 +149,7 @@ get_underemployment <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -178,6 +178,7 @@ get_labor_force_participation_rate <- function(by=NULL) {
   if (!is.null(by)) params <- make_params(params, by, c("g", "r", "a", "e"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -188,8 +189,7 @@ get_labor_force_participation_rate <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
@@ -203,19 +203,21 @@ get_labor_force_participation_rate <- function(by=NULL) {
 #' @return \code{tbl_df} with data filtered by the selected criteria.
 #' @export
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
+#' @return data frame
 #' @examples
-#' get_employment_to_population_ratio()
+#' if (not_dos()) get_employment_to_population_ratio()
 #'
-#' get_employment_to_population_ratio("r")
+#' if (not_dos()) get_employment_to_population_ratio("r")
 #'
-#' get_employment_to_population_ratio("grae")
+#' if (not_dos()) get_employment_to_population_ratio("grae")
 get_employment_to_population_ratio <- function(by=NULL) {
 
-  params <- list(subject="lfpr")
+  params <- list(subject="epop")
 
   if (!is.null(by)) params <- make_params(params, by, c("g", "r", "a", "e"))
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -226,8 +228,7 @@ get_employment_to_population_ratio <- function(by=NULL) {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 

@@ -3,7 +3,6 @@
 \docType{package}
 \name{epidata}
 \alias{epidata}
-\alias{epidata-package}
 \title{A package to Tools to Retrieve Economic Policy Institute Data Library Extracts}
 \description{
 The Economic Policy Institute provides researchers, media, and the public with easily
@@ -11,6 +10,10 @@ accessible, up-to-date, and comprehensive historical data on the American labor 
 It is compiled from Economic Policy Institute analysis of government data sources. Use
 it to research wages, inequality, and other economic indicators over time  and among
 demographic groups. Data is usually updated monthly.
+}
+\details{
+Set option `epidata.show.citation` to `FALSE` to suppress note and citation
+messages. Remember, though, that EPI requires attribution if you use their data.
 }
 \author{
 Bob Rudis (bob@rud.is)

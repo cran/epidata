@@ -8,6 +8,7 @@
 #' @return \code{tbl_df}
 #' @references \href{https://www.epi.org/data/}{Economic Policy Institute Data Library}
 #' @note CPS ASEC | Murphy and Welch (1989)
+#' @return data frame
 #' @export
 #' @examples
 #' get_annual_wages_and_work_hours()
@@ -16,6 +17,7 @@ get_annual_wages_and_work_hours <- function() {
   params <- list(subject="hours")
 
   res <- epi_query(params)
+  if (is.null(res)) return(data.frame())
 
   cols <- stringi::stri_trans_tolower(res$columns$name)
   cols <- stringi::stri_replace_all_regex(cols, "[\\('\\)]", "")
@@ -26,8 +28,7 @@ get_annual_wages_and_work_hours <- function() {
   out <- dplyr::mutate_all(out, "clean_cols")
   out <- suppressMessages(readr::type_convert(out))
 
-  cite <- html_text(read_html(res$meta$source %||% "<p>Economic Policy Institute</p>"))
-  message(sprintf('Note: %s\nCitation: "%s"', res$meta$notes %||% "None", cite))
+  show_citation(res)
 
   out
 
